@@ -1,6 +1,6 @@
 This is some basic Julia code for simple discrete probability table manipulation.
 
-This code was developed for Julia version 0.5.0
+This code was developed for Julia version 0.6.0
 
 To run the demos (see the Demos folder):
 start julia and then from within julia type:
