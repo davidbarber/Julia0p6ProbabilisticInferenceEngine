@@ -317,6 +317,42 @@ function findmax(A::PotArray,variables;MaxOver=true,Ind2Sub=false)
 end
 
 
+import Base.+
+function +(A::Number,B::PotArray)
+    return PotArray(B.variables,A+B.content)
+end
+function +(A::PotArray,B::Number)
+    return PotArray(A.variables,A.content+B)
+end
+import Base.-
+function -(A::Number,B::PotArray)
+    return PotArray(B.variables,A-B.content)
+end
+function -(A::PotArray,B::Number)
+    return PotArray(A.variables,A.content-B)
+end
+import Base.*
+function *(A::Number,B::PotArray)
+    return PotArray(B.variables,A*B.content)
+end
+function *(A::PotArray,B::Number)
+    return PotArray(A.variables,A.content*B)
+end
+import Base./
+function /(A::Number,B::PotArray)
+    return PotArray(B.variables,A/B.content)
+end
+function /(A::PotArray,B::Number)
+    return PotArray(A.variables,A.content/B)
+end
 
+list=["sin","cos","tan","cot","sec","csc","sinh","cosh","tanh","coth","sech","csch","asin","acos","atan","acot","asec","acsc","asinh","acosh","atanh","acoth","asech","acsch","sinc","cosc","atan2","erf","-","exp","log","abs","abs2","sign","sqrt","expm1","log2","log10","log1p"]
+for i=1:length(list)
+    p="import Base.$(list[i]); $(list[i])(x::PotArray)=begin;out=deepcopy(x); out.content=$(list[i])(x.content); return out; end"
+    eval(parse(p))
+end
+
+
+^(x::PotArray,n::Integar)=begin;out=deepcopy(x);out.content=(x.content).^n;return out; end
 
 

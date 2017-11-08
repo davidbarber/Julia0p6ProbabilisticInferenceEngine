@@ -251,15 +251,15 @@ A tree/singly-connected graph must admit a recursive simplical node elimination.
 """ ->
 function istree(A,root=[];ReturnElimSeq=false)
     C = size(A,1); # number of nodes in the graph
-    schedule=zeros(Int,C,2);
+    schedule=zeros(Int,C,2)
     tree=true; # assume A is singly connected
     AA=copy(A); # adjacency of the eliminated graph
     elimseq=[]; # set of variables eliminated (in sequence)
 
     for node=1:C
         # now find the number of neighbours:
-        nn=(C+1)*ones(1,C);  # ensures that we don't pick eliminated nodes
-        s=1:C; r=zeros(1,C);
+        nn=(C+1)*ones(1,C)  # ensures that we don't pick eliminated nodes
+        s=1:C; r=zeros(1,C)
         r[elimseq]=1; # need to check this
         s=s[find(r.==0)];
         nn[s]=neighboursize(AA',s)
@@ -487,7 +487,7 @@ export condexp
 function condexp(logp)
     pmax=maximum(logp,1)
     P =size(logp,1)
-    return condp(exp(logp-repmat(pmax,P,1)))
+    return condp(exp.(logp-repmat(pmax,P,1)))
 end
 
 export validgridposition
