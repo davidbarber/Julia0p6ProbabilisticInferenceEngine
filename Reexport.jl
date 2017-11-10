@@ -21,9 +21,9 @@ macro reexport(ex)
         ex = Expr(:toplevel, ex, Expr(:using, :., ex.args[2]))
     elseif ex.head == :using
         modules = Any[ex.args[end]]
-        else
-            modules = Any[e.args[end] for e in ex.args]
-            end
+    else
+        modules = Any[e.args[end] for e in ex.args]
+    end
 
     esc(Expr(:toplevel, ex,
              [:(eval(Expr(:export, names($(mod))...))) for mod in modules]...))
