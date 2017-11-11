@@ -1,4 +1,3 @@
-
 module BrmlFunctions
 # General helper functions:
 
