@@ -187,9 +187,11 @@ function FactorGraph(pot::DictOrArray)
     # See also demoSumProd.jl
 
     F=length(pot) # number of factors (potentials in distribution)
-    variables=potvariables(pot)
-    if variables[end]!=length(variables);
-        error("potential variables used are not numbered 1:end. Use standarisevariables.jl. See demoSumProdStandariseVariables"); end
+#    variables=potvariables(pot)
+#    if variables[end]!=length(variables);
+    variables=sort(potvariables(pot))
+    if ~all(sort(variables).==1:length(variables))
+        error("potential variables used are not numbered 1:end. Use standardisevariables.jl. See demoSumProdStandariseVariables"); end
 
     V=length(variables)
     N=V+F # all nodes in factor graph
@@ -207,19 +209,20 @@ function FactorGraph(pot::DictOrArray)
     #tree, elimseq, forwardschedule=istree(full(A),ReturnElimSeq=true); ## change to sparse
     tree, elimseq, forwardschedule=istree(A,ReturnElimSeq=true); ## change to sparse
     #reverseschedule=flipud(fliplr(forwardschedule));
-    reverseschedule=flipdim(flipdim(forwardschedule,2),1);
-    schedule=vcat(forwardschedule,reverseschedule);
 
     if tree
+        reverseschedule=flipdim(flipdim(forwardschedule,2),1)
+        schedule=vcat(forwardschedule,reverseschedule)
+
         for count=1:size(schedule,1)
             # setup the structure for a message from FGnodeA -> FGnodeB
             FGnodeA, FGnodeB = schedule[count,:]
             A[FGnodeA,FGnodeB]=count; # store the FG adjacency matrix with mess number on edge
         end
     else
-        A = replace(A,1,-1);
+        warn("Factor Graph is not a tree: cannot calculate elimination sequence")
+        replace!(A,1,-1)
     end
-
 
     return A
 

@@ -69,7 +69,7 @@ type PotLogArray <: ArrayPotential
     end
 end
 
-try
+#try
     current_path = joinpath((pwd()), "src", "PotentialInference")
     PotentialsPath = joinpath(current_path, "Potentials")
     AlgorithmsPath = joinpath(current_path, "Algorithms")
@@ -79,6 +79,6 @@ try
     include(joinpath(PotentialsPath, "PotConst.jl"))
     include(joinpath(PotentialsPath, "PotLogArray.jl"))
     include(joinpath(AlgorithmsPath, "FactorGraph.jl"))
-end
+#end
 
 end # module

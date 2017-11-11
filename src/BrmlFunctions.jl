@@ -1,4 +1,3 @@
-
 module BrmlFunctions
 # General helper functions:
 
@@ -181,7 +180,7 @@ function numstates(A)
     return n
 end
 
-export replace
+export replace!
 @doc """
  Finds the elements having value **`f`** in matrix **`A`** and replaces their value with **`r`**
 """ ->

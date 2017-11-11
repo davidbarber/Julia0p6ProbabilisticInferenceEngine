@@ -221,7 +221,7 @@ function sum(A::PotArray,variables=A.variables;SumOver::Any=true)
 end
 
 
-export setpot
+#import setpot
 function setpot(A::PotArray,variables,evidstates)
     # Set the value of a PotArray potential
     # eg setpot(pot,[1 2],[3 4]) sets variable 1 to state 3 and variable 2 to state 4
@@ -235,6 +235,7 @@ function setpot(A::PotArray,variables,evidstates)
     end
     A=sum(A,variables)
 end
+export setpot
 
 
 
@@ -353,6 +354,6 @@ for i=1:length(list)
 end
 
 
-^(x::PotArray,n::Integar)=begin;out=deepcopy(x);out.content=(x.content).^n;return out; end
+^(x::PotArray,n::Integer)=begin;out=deepcopy(x);out.content=(x.content).^n;return out; end
 
 

@@ -52,7 +52,7 @@ function -(C::Const,P::PotArray)
     return p
 end
 
-
+import Base.convert
 function convert(::Type{PotArray},c::Const)
     return PotArray([],c.content)
 end
