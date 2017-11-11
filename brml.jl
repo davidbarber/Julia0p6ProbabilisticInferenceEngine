@@ -11,12 +11,12 @@ push!(LOAD_PATH, joinpath(pwd(), "Demos"))
 println("\nAvailable Demos:\n")
 demos=readdir("Demos")
 for i=1:length(demos)
-    try
+#    try
         if demos[i][1:4]=="demo" && demos[i][end-2:end]==".jl"
             println(demos[i])
             reload(demos[i])
         end
-    end
+#    end
 end
 
 using Reexport
