@@ -308,7 +308,7 @@ function findmax(A::PotArray,variables;MaxOver=true,Ind2Sub=false)
         return maxval, maxind
     end
 
-    s=ind2sub(size(A),maxind[:]) # compatabilty with matlab BRML
+    s=ind2sub(size(A),maxind[:]) # compatibilty with matlab BRML
     maxstate=zeros(Int64,length(s[1]),length(s))
     for i=1:size(A,2)
         maxstate[:,i]=s[i]
@@ -320,31 +320,31 @@ end
 
 import Base.+
 function +(A::Number,B::PotArray)
-    return PotArray(B.variables,A+B.content)
+    return PotArray(copy(B.variables),A+B.content)
 end
 function +(A::PotArray,B::Number)
-    return PotArray(A.variables,A.content+B)
+    return PotArray(copy(A.variables),A.content+B)
 end
 import Base.-
 function -(A::Number,B::PotArray)
-    return PotArray(B.variables,A-B.content)
+    return PotArray(copy(B.variables),A-B.content)
 end
 function -(A::PotArray,B::Number)
-    return PotArray(A.variables,A.content-B)
+    return PotArray(copy(A.variables),A.content-B)
 end
 import Base.*
 function *(A::Number,B::PotArray)
-    return PotArray(B.variables,A*B.content)
+    return PotArray(copy(B.variables),A*B.content)
 end
 function *(A::PotArray,B::Number)
-    return PotArray(A.variables,A.content*B)
+    return PotArray(copy(A.variables),A.content*B)
 end
 import Base./
 function /(A::Number,B::PotArray)
-    return PotArray(B.variables,A/B.content)
+    return PotArray(copy(B.variables),A/B.content)
 end
 function /(A::PotArray,B::Number)
-    return PotArray(A.variables,A.content/B)
+    return PotArray(copy(A.variables),A.content/B)
 end
 
 list=["sin","cos","tan","cot","sec","csc","sinh","cosh","tanh","coth","sech","csch","asin","acos","atan","acot","asec","acsc","asinh","acosh","atanh","acoth","asech","acsch","sinc","cosc","atan2","erf","-","exp","log","abs","abs2","sign","sqrt","expm1","log2","log10","log1p"]
