@@ -319,41 +319,53 @@ end
 
 
 import Base.+
-function +(A::Number,B::PotArray)
-    return PotArray(copy(B.variables),A+B.content)
+function +(n::Number,A::PotArray)
+    return PotArray(copy(A.variables),n+A.content)
 end
-function +(A::PotArray,B::Number)
-    return PotArray(copy(A.variables),A.content+B)
+function +(A::PotArray,n::Number)
+    return PotArray(copy(A.variables),A.content+n)
 end
 import Base.-
-function -(A::Number,B::PotArray)
-    return PotArray(copy(B.variables),A-B.content)
+function -(n::Number,A::PotArray)
+    return PotArray(copy(A.variables),n-A.content)
 end
-function -(A::PotArray,B::Number)
-    return PotArray(copy(A.variables),A.content-B)
+function -(A::PotArray,n::Number)
+    return PotArray(copy(A.variables),A.content-n)
+end
+function -(A::PotArray,)
+    return PotArray(copy(A.variables),-A.content)
 end
 import Base.*
-function *(A::Number,B::PotArray)
-    return PotArray(copy(B.variables),A*B.content)
+function *(n::Number,A::PotArray)
+    return PotArray(copy(A.variables),n*A.content)
 end
-function *(A::PotArray,B::Number)
-    return PotArray(copy(A.variables),A.content*B)
+function *(A::PotArray,n::Number)
+    return PotArray(copy(A.variables),A.content*n)
 end
 import Base./
-function /(A::Number,B::PotArray)
-    return PotArray(copy(B.variables),A/B.content)
+function /(n::Number,A::PotArray)
+    return PotArray(copy(A.variables),n/A.content)
 end
-function /(A::PotArray,B::Number)
-    return PotArray(copy(A.variables),A.content/B)
+function /(A::PotArray,n::Number)
+    return PotArray(copy(A.variables),A.content/n)
+end
+import Base.^
+function ^(A::PotArray,n::Integer)
+    return PotArray(copy(A.variables),A.content.^n)
 end
 
-list=["sin","cos","tan","cot","sec","csc","sinh","cosh","tanh","coth","sech","csch","asin","acos","atan","acot","asec","acsc","asinh","acosh","atanh","acoth","asech","acsch","sinc","cosc","atan2","erf","-","exp","log","abs","abs2","sign","sqrt","expm1","log2","log10","log1p"]
-for i=1:length(list)
-    p="import Base.$(list[i]); $(list[i])(x::PotArray)=begin;out=deepcopy(x); out.content=$(list[i])(x.content); return out; end"
+
+fn_list=("sin","cos","tan","cot","sec","csc","sinh","cosh","tanh","coth","sech","csch",
+    "asin","acos","atan","acot","asec","acsc","asinh","acosh","atanh","acoth","asech","acsch",
+    "sinc","cosc","atan2","exp","log","abs","abs2","sign","sqrt","expm1","log2","log10","log1p")
+for fn in fn_list
+    # TODO *"." is used to handle warnings like (Julia 0.6)
+    # WARNING: sin(x::AbstractArray{T}) where T <: Number is deprecated, use sin.(x) instead.
+    p="import Base.$(fn); $(fn)(A::PotArray)=begin; return PotArray(copy(A.variables), $(fn*".")(A.content)); end"
     eval(parse(p))
 end
 
-
-^(x::PotArray,n::Integer)=begin;out=deepcopy(x);out.content=(x.content).^n;return out; end
-
-
+import SpecialFunctions.erf
+function erf(A::PotArray)
+    return PotArray(copy(A.variables),erf.(A.content))
+end
